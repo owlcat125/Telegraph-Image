@@ -1,6 +1,299 @@
 
 <!doctype html>
 <html data-n-head-ssr>
+  <style>
+    /* 全局样式重置 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    /* 主容器样式 */
+    .main-container {
+      max-width: 400px;
+      width: 100%;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    /* 头部样式 */
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .header h1 {
+      font-size: 24px;
+      font-weight: 600;
+    }
+    
+    /* 上传区域样式 */
+    .upload-area {
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .upload-box {
+      width: 100%;
+      border: 2px dashed #e0e0e0;
+      border-radius: 8px;
+      padding: 40px 20px;
+      text-align: center;
+      transition: all 0.3s ease;
+      background-color: #fafafa;
+    }
+    
+    .upload-box:hover {
+      border-color: #667eea;
+      background-color: #f5f7ff;
+    }
+    
+    .upload-icon {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 20px;
+      fill: #667eea;
+    }
+    
+    .upload-text {
+      color: #666;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+    
+    .upload-tip {
+      color: #999;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    
+    /* 按钮样式 */
+    .btn-upload {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+    
+    .btn-upload:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+    
+    /* 图片预览容器样式 */
+    .image-preview-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+      width: 100%;
+    }
+    
+    .image-preview-container img {
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    /* 链接复制区域样式 */
+    .url-box {
+      width: 100%;
+      margin-top: 20px;
+    }
+    
+    .copy-url {
+      display: flex;
+      width: 100%;
+    }
+    
+    .input-group {
+      display: flex;
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .input-sm {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #e0e0e0;
+      border-right: none;
+      outline: none;
+      font-size: 14px;
+    }
+    
+    .input-group-button {
+      padding: 0 15px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    
+    .input-group-button:hover {
+      opacity: 0.9;
+    }
+    
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .main-container {
+        max-width: 100%;
+        margin: 0 10px;
+        border-radius: 10px;
+      }
+      
+      .upload-area {
+        padding: 20px;
+      }
+      
+      .upload-box {
+        padding: 30px 15px;
+      }
+      
+      .header h1 {
+        font-size: 20px;
+      }
+      
+      .upload-icon {
+        width: 60px;
+        height: 60px;
+      }
+      
+      .upload-text {
+        font-size: 14px;
+      }
+      
+      .upload-tip {
+        font-size: 12px;
+      }
+      
+      .image-preview-container img {
+        max-height: 250px;
+      }
+    }
+    
+    /* 移动设备优化 - 小屏幕 */
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+      
+      .main-container {
+        margin: 0;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+      
+      .header {
+        padding: 15px;
+      }
+      
+      .header h1 {
+        font-size: 18px;
+      }
+      
+      .upload-area {
+        padding: 15px;
+      }
+      
+      .upload-box {
+        padding: 25px 10px;
+        border-width: 1px;
+      }
+      
+      .upload-icon {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 15px;
+      }
+      
+      .btn-upload {
+        padding: 14px 35px;
+        font-size: 16px; /* 确保在移动设备上字体足够大 */
+        width: 100%;
+        text-align: center;
+      }
+      
+      /* 确保输入框和按钮在移动设备上更大，更容易点击 */
+      .input-sm {
+        padding: 14px 12px !important;
+        font-size: 16px !important;
+        line-height: 24px !important;
+      }
+      
+      .input-group-button {
+        padding: 0 20px !important;
+      }
+      
+      .image-preview-container {
+        padding: 10px;
+      }
+      
+      .image-preview-container img {
+        max-height: 200px;
+      }
+    }
+    
+    /* 确保在所有设备上的交互元素都易于点击 - 增大触摸区域 */
+    @media (hover: none) and (pointer: coarse) {
+      .btn-upload,
+      .input-group-button {
+        min-height: 48px;
+      }
+      
+      .input-sm {
+        min-height: 48px;
+      }
+    }
+    
+    /* 动画效果 */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.5s ease;
+    }
+  </style>
   <script>
   // 等待整个文档加载完毕
   document.addEventListener('DOMContentLoaded', function() {
@@ -23,26 +316,12 @@
 
                 // 创建包含图片预览的新元素
                 var newDiv = document.createElement('div');
-                newDiv.classList.add('image-preview-container');
-                newDiv.style.display = 'flex'; // 设置样式
-                newDiv.style.flexDirection = 'column';
-                newDiv.style.alignItems = 'center';
-                newDiv.style.marginTop = '10px';
-                newDiv.style.marginBottom = '10px';
-                newDiv.style.padding = '10px';
-                newDiv.style.border = '1px solid #eee';
-                newDiv.style.borderRadius = '4px';
-                newDiv.style.backgroundColor = '#f9f9f9';
+                newDiv.classList.add('image-preview-container', 'fade-in');
 
                 // 创建预览图片元素
                 var previewImg = document.createElement('img');
                 previewImg.src = url; // 设置图片源
                 previewImg.alt = '图片预览'; // 设置替代文本
-                previewImg.style.maxWidth = '100%'; // 设置样式
-                previewImg.style.maxHeight = '300px';
-                previewImg.style.borderRadius = '4px';
-                previewImg.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
-                previewImg.style.transition = 'all 0.3s ease';
                 
                 // 图片加载失败时显示错误信息
                 previewImg.onerror = function() {
@@ -58,7 +337,7 @@
                 newDiv.appendChild(previewImg);
 
                 // 获取要插入新元素的位置（通过类名获取元素）
-                var urlBoxElements = document.querySelectorAll('.url-box[data-v-793b8fc8=""]');
+                var urlBoxElements = document.querySelectorAll('.url-box');
                 if (urlBoxElements.length > 0) {
                     // 获取第一个匹配的元素并在其之后插入新创建的 div
                     var urlBox = urlBoxElements[0];
